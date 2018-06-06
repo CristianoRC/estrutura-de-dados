@@ -129,14 +129,12 @@ int excluiDoFim(ListaDE *lista, Dado *dado) {
         if (pNodo->ant == NULL && pNodo->prox == NULL && lista->n == 1) {
             lista->inicio = NULL;
             lista->fim = NULL;
-            lista->n--;
-            free(pNodo);
         }else {
             pNodo->ant->prox = NULL;
             lista->fim = pNodo->ant;
-            lista->n--;
-            free(pNodo);
         }
+        lista->n--;
+        free(pNodo);
         return SUCESSO;
     }
 }
