@@ -102,16 +102,14 @@ int incluiNoFim(ListaDE *lista, Dado dado) {
         return FALTOU_MEMORIA;
     else {
         pNodo->info = dado;
+        pNodo->prox = NULL;
+        lista->fim = pNodo;
         if (lista->n == 0) {
             pNodo->ant = NULL;
-            pNodo->prox = NULL;
-            lista->fim = pNodo;
             lista->inicio = pNodo;
         }else {
             pNodo->ant = lista->fim;
-            pNodo->prox = NULL;
             lista->fim->prox = pNodo;
-            lista->fim = pNodo;
         }
         lista->n++;
         return SUCESSO;
