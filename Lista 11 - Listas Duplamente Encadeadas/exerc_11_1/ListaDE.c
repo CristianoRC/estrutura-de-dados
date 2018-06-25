@@ -231,50 +231,46 @@ int excluiNodo (ListaDE *lista, int cod, Dado *dado) {
     int flag = 0;
     
     pNodo = lista->inicio;
-    if (estaVazia(*lista) == 1)
+    
+    if (pNodo == NULL)
         return LISTA_VAZIA;
     else {
         while (pNodo != NULL) {
             if (pNodo->info.cod == cod) {
                 *dado = pNodo->info;
-                if (pNodo->ant == NULL && pNodo->prox == NULL && lista->n == 1) {
+                if (lista->n == 1) {
                     lista->inicio = NULL;
                     lista->fim = NULL;
-                    lista->n--;
-                    free(pNodo);
                     flag = 1;
                     break;
-                }
-                if (pNodo->ant == NULL && pNodo->prox != NULL && lista->n > 1) {
-                    lista->inicio = pNodo->prox;
-                    pNodo->prox->ant = NULL;
-                    lista->n--;
-                    free(pNodo);
-                    flag = 1;
-                    break;
-                }
-                if (pNodo->ant != NULL && pNodo->prox != NULL && lista->n > 1) {
-                    pNodo->ant->prox = pNodo->prox;
-                    pNodo->prox->ant = pNodo->ant;
-                    lista->n--;
-                    free(pNodo);
-                    flag = 1;
-                    break;
-                }
-                if (pNodo->ant != NULL && pNodo->prox == NULL && lista->n > 1) {
-                    pNodo->ant->prox = NULL;
-                    lista->fim = pNodo->ant;
-                    lista->n--;
-                    free(pNodo);
-                    flag = 1;
-                    break;
+                }else{
+                    if (pNodo->ant == NULL && pNodo->prox != NULL) {
+                        lista->inicio = pNodo->prox;
+                        pNodo->prox->ant = NULL;
+                        flag = 1;
+                        break;
+                    }
+                    if (pNodo->ant != NULL && pNodo->prox != NULL) {
+                        pNodo->ant->prox = pNodo->prox;
+                        pNodo->prox->ant = pNodo->ant;
+                        flag = 1;
+                        break;
+                    }
+                    if (pNodo->ant != NULL && pNodo->prox == NULL) {
+                        pNodo->ant->prox = NULL;
+                        lista->fim = pNodo->ant;
+                        flag = 1;
+                        break;
+                    }
                 }
             }
             pNodo = pNodo->prox;
         }
-        if (flag == 1)
+        if (flag == 1) {
+            lista->n--;
+            free(pNodo);
             return SUCESSO;
-        else
+        }else
             return CODIGO_INEXISTENTE;
     }
 }
