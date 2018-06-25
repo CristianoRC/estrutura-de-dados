@@ -188,50 +188,38 @@ int excluiDoInicio(ListaDE *lista, Dado *dado) {
 //Função incluiDepois
 int incluiDepois(ListaDE *lista, int cod, Dado dado) {
     
-    Nodo *pNodo, *pAux;
-    int flag = 1; 
+    Nodo *pNodo, *pTemp;
+    int flag = 0;
     
     pNodo = (Nodo *) malloc (sizeof(Nodo));
+    
     if (pNodo == NULL)
         return FALTOU_MEMORIA;
     else {
-        pAux = lista->inicio;
-        pNodo->info = dado;
-        while (pAux != NULL) {
-            if (pAux->info.cod == cod) {
-                if (pAux->ant == NULL && pAux->prox == NULL && lista->n == 1) {
-                    pNodo->ant = pAux;
+        pTemp = lista->inicio;
+        while (pTemp != NULL) {
+            if (pTemp->info.cod == cod) {
+                if (lista->n >= 1 && pTemp->prox == NULL) {
                     pNodo->prox = NULL;
-                    pAux->prox = pNodo;
                     lista->fim = pNodo;
-                    lista->n++;
                     flag = 1;
                     break;
-                }
-                if (pAux->ant != NULL && pAux->prox == NULL && lista->n > 1) {
-                    pNodo->ant = pAux;
-                    pNodo->prox = NULL;
-                    pAux->prox = pNodo;
-                    lista->fim = pNodo;
-                    lista->n++;
-                    flag = 1;
-                    break;
-                }
-                if (pAux->ant != NULL && pAux->prox != NULL && lista->n > 1 || pAux->ant == NULL && pAux->prox != NULL && lista->n > 1) {
-                    pNodo->ant = pAux;
-                    pNodo->prox = pAux->prox;
-                    pAux->prox->ant = pNodo;
-                    pAux->prox = pNodo;
-                    lista->n++;
+                }else {
+                    pNodo->prox = pTemp->prox;
+                    pTemp->prox->ant = pNodo;
                     flag = 1;
                     break;
                 }
             }
-            pAux = pAux->prox;
+            pTemp = pTemp->prox;
         }
-        if (flag == 1)
+        if (flag == 1) {
+            pNodo->info = dado;
+            pNodo->ant = pTemp;
+            pTemp->prox = pNodo;
+            lista->n++;
             return SUCESSO;
-        else
+        }else
             return CODIGO_INEXISTENTE;
     }
 }
