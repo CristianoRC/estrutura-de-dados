@@ -126,7 +126,7 @@ int excluiDoFim(ListaDE *lista, Dado *dado) {
     else {
         pNodo = lista->fim;
         *dado = pNodo->info;
-        if (pNodo->ant == NULL && pNodo->prox == NULL && lista->n == 1) {
+        if (lista->n == 1) {
             lista->inicio = NULL;
             lista->fim = NULL;
         }else {
