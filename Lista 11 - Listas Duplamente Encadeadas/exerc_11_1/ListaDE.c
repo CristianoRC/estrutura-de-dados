@@ -103,14 +103,14 @@ int incluiNoFim(ListaDE *lista, Dado dado) {
     else {
         pNodo->info = dado;
         pNodo->prox = NULL;
-        lista->fim = pNodo;
         if (lista->n == 0) {
             pNodo->ant = NULL;
             lista->inicio = pNodo;
         }else {
             pNodo->ant = lista->fim;
             lista->fim->prox = pNodo;
-        }
+        }    
+        lista->fim = pNodo;    
         lista->n++;
         return SUCESSO;
     }
